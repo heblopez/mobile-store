@@ -7,7 +7,7 @@
 body {
   font-family: 'Roboto', system-ui, Helvetica, Arial, sans-serif;
   color-scheme: light dark;
-  @apply bg-slate-50 text-slate-900;
+  @apply bg-slate-50 text-gray-900;
 }
 
 #root {
@@ -18,6 +18,7 @@ body {
 
 @media (prefers-color-scheme: dark) {
   body {
-    @apply bg-slate-950 text-slate-50;
+    background-color: hsl(245, 48%, 12%);
+    color: white
   }
 }
