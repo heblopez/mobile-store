@@ -7,7 +7,7 @@
 body {
   font-family: 'Roboto', system-ui, Helvetica, Arial, sans-serif;
   color-scheme: light dark;
-  @apply bg-slate-50 text-gray-900;
+  @apply bg-slate-50 text-gray-900 text-sm;
 }
 
 #root {
