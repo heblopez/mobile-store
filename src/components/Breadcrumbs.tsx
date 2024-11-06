@@ -7,7 +7,7 @@ interface BreadcrumbsProps {
 
 export default function Breadcrumbs({ links }: BreadcrumbsProps) {
   return (
-    <div className='flex text-xs text-indigo-900 mt-2 items-center justify-self-center xs:justify-self-start justify-center dark:text-indigo-100 px-1 py-2 gap-x-1'>
+    <div className='max-w-7xl py-2 flex text-xs text-indigo-900 mt-2 items-center justify-self-center xs:justify-self-start justify-center dark:text-indigo-100 gap-x-1'>
       {links.map((link, index) => (
         <Link key={`breadcrumb-${index}`} to={link.href} className='flex items-center space-x-1'>
           {index === 0 ?
