@@ -1,7 +1,7 @@
 import { SearchIcon } from 'lucide-react'
 import { useState } from 'react'
 
-export default function SearchBar() {
+export default function SearchBar({ className }: { className?: string }) {
   const [searchTerm, setSearchTerm] = useState<string>('')
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -10,7 +10,9 @@ export default function SearchBar() {
   }
 
   return (
-    <div className='flex relative w-full max-w-md my-3 items-center bg-slate-100 dark:bg-slate-800 rounded-lg'>
+    <div
+      className={`flex relative w-full max-w-sm my-3 items-center bg-slate-100 dark:bg-slate-800 rounded-lg ${className}`}
+    >
       <input
         type='text'
         placeholder='Search by brand or model...'
