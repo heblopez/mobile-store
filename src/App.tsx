@@ -1,25 +1,16 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import Home from './pages/Home'
+import ProductDetail from './pages/ProductDetail'
 
 function App() {
   return (
-    <div className='flex flex-col items-center'>
-      <div className='flex justify-center items-center'>
-        <a href='https://vite.dev' target='_blank'>
-          <img src={viteLogo} className='logo' alt='Vite logo' />
-        </a>
-        <a href='https://react.dev' target='_blank'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
-        </a>
-      </div>
-      <h1 className='text-3xl'>Vite + React</h1>
-      <div className='card'>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className='read-the-docs'>Click on the Vite and React logos to learn more</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/:name' element={<ProductDetail />} />
+        <Route path='*' element={<Navigate to={'/'} />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
