@@ -16,7 +16,7 @@ export default function SearchBar({ className }: { className?: string }) {
       <input
         type='text'
         placeholder='Search by brand or model...'
-        className='w-full pl-4 py-2 bg-transparent text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg'
+        className='w-full px-4 py-2 bg-transparent text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg'
         value={searchTerm}
         onChange={handleSearch}
       />

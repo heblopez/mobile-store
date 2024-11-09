@@ -1,5 +1,6 @@
 import { EyeIcon } from 'lucide-react'
 import { Product } from '@/types'
+import { Link } from 'react-router-dom'
 
 interface ProductCardProps {
   product: Product
@@ -33,13 +34,14 @@ export default function ProductCard({ product }: ProductCardProps) {
           <h3 className='text-center text-lg font-bold text-gray-700 dark:text-inherit'>{model}</h3>
         </div>
 
-        <button
-          className='mx-auto bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:opacity-80 transition-colors'
+        <Link
+          to={`/product/${id}`}
+          className=' w-fit mx-auto bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:opacity-80'
           aria-label='Add to cart'
         >
           <EyeIcon className='h-4 w-4' />
-          <span className='font-light text-xs'>View more</span>
-        </button>
+          <span className='font-normal text-xs'>View more</span>
+        </Link>
       </div>
     </div>
   )

@@ -4,7 +4,7 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      screens: { xs: '425px' }
+      screens: { xs: '480px' }
     }
   },
   plugins: []
