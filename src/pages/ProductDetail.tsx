@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { ShoppingCartIcon, Star } from 'lucide-react'
+import { ChevronDownIcon, ShoppingCartIcon, Star } from 'lucide-react'
 import Header from '@/components/Header'
 import { ProductData } from '@/types'
 
@@ -16,7 +16,8 @@ export default function ProductDetail() {
       .catch(err => console.error(err))
   }, [id])
 
-  const { model, imgUrl } = productData
+  const { model, imgUrl, options } = productData
+  const { colors, storages } = options
 
   const breadcrumbs = [
     { label: 'Home', href: '/' },
@@ -91,6 +92,36 @@ export default function ProductDetail() {
                       </li>
                     ))}
                 </ul>
+              </div>
+
+              <div className='space-y-4'>
+                <div className='space-y-2'>
+                  <label className='block text-sm font-medium text-gray-700'>Color</label>
+                  <div className='relative'>
+                    <select className='appearance-none px-4 py-2 w-full rounded-lg border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500'>
+                      {colors.map(color => (
+                        <option key={color.code} value={color.code}>
+                          {color.name}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDownIcon className='absolute right-2 top-1/2 -translate-y-1/2 h-5 w-5 text-indigo-500 pointer-events-none' />
+                  </div>
+                </div>
+
+                <div className='space-y-2'>
+                  <label className='block text-sm font-medium text-gray-700'>Storage</label>
+                  <div className='relative'>
+                    <select className='appearance-none p-2 w-full rounded-lg border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500'>
+                      {storages.map(storage => (
+                        <option key={storage.code} value={storage.code}>
+                          {storage.name}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDownIcon className='absolute right-2 top-1/2 -translate-y-1/2 h-5 w-5 text-indigo-500 pointer-events-none' />
+                  </div>
+                </div>
               </div>
               <button className='w-max justify-self-center py-3 px-6 bg-gradient-to-r from-indigo-600 to-blue-500 hover:bg-blue-700 hover:opacity-80 text-white font-medium rounded-lg flex items-center justify-center gap-3'>
                 <ShoppingCartIcon className='w-5 h-5' />

@@ -27,7 +27,7 @@ export default function Home() {
         </section>
         <section className='p-4 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-9 md:gap-12 xl:px-0'>
           {products.map(product => (
-            <ProductCard product={product} />
+            <ProductCard key={product.id} product={product} />
           ))}
         </section>
       </main>
