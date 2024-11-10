@@ -56,3 +56,10 @@ export interface ProductData {
   colors: string[]
   options: Options
 }
+
+export interface CartItem {
+  id: string
+  model?: string
+  colorCode: string
+  storageCode: string
+}

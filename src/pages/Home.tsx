@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import SearchBar from '@/components/SearchBar'
 import ProductCard from '@/components/ProductCard'
 import { Loader } from 'lucide-react'
+import { getProducts } from '@/services/product.services'
 
 const breadcrumbs = [{ label: 'Home', href: '/' }]
 
@@ -11,16 +12,7 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
 
   useEffect(() => {
-    fetch('https://itx-frontend-test.onrender.com/api/product')
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          throw new Error('Error fetching products')
-        }
-      })
-      .then(data => setProducts(data))
-      .catch(err => console.error(err))
+    getProducts().then(data => setProducts(data))
   }, [])
 
   return (

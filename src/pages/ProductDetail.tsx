@@ -7,7 +7,9 @@ import { ProductOptions } from '@/components/ProductOptions'
 import { ProductHeading } from '@/components/ProductHeading'
 import { ProductImage } from '@/components/ProductImage'
 import { ActionButtons } from '@/components/ActionButtons'
-import { ProductData } from '@/types'
+import { getProductDetails } from '@/services/product.services'
+import { addToCart } from '@/services/cart.services'
+import { CartItem, ProductData } from '@/types'
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -17,16 +19,9 @@ export default function ProductDetail() {
   const storageRef = useRef<HTMLSelectElement>(null)
 
   useEffect(() => {
-    fetch(`https://itx-frontend-test.onrender.com/api/product/${id}`)
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          throw new Error('Error fetching product details')
-        }
-      })
-      .then(data => setProductData(data))
-      .catch(err => console.error(err))
+    if (id) {
+      getProductDetails(id).then(data => setProductData(data))
+    }
   }, [id])
 
   if (Object.keys(productData).length === 0)
@@ -40,7 +35,7 @@ export default function ProductDetail() {
     { label: model || 'Product Detail', href: '' }
   ]
 
-  function addToCart() {
+  function handleAddToCart() {
     const timestamp = localStorage.getItem('timestamp')
     if (timestamp && Date.now() - Number(timestamp) > 1000 * 60 * 60) {
       localStorage.removeItem('timestamp')
@@ -56,30 +51,16 @@ export default function ProductDetail() {
       storageCode: storageRef.current?.value
     }
     console.log(dataToSend)
-    fetch(`https://itx-frontend-test.onrender.com/api/cart/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(dataToSend)
+
+    addToCart(dataToSend as CartItem).then(res => {
+      const timestampLocal = localStorage.getItem('timestamp')
+      if (!timestampLocal) {
+        localStorage.setItem('timestamp', JSON.stringify(Date.now()))
+      }
+      const updatedCart = [...cart, dataToSend]
+      localStorage.setItem('cart', JSON.stringify(updatedCart))
+      console.log('res', res)
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          throw new Error('Error adding product to cart')
-        }
-      })
-      .then(res => {
-        const timestampLocal = localStorage.getItem('timestamp')
-        if (!timestampLocal) {
-          localStorage.setItem('timestamp', JSON.stringify(Date.now()))
-        }
-        const updatedCart = [...cart, dataToSend]
-        localStorage.setItem('cart', JSON.stringify(updatedCart))
-        console.log('res', res)
-      })
-      .catch(err => console.error(err))
   }
 
   return (
@@ -101,7 +82,7 @@ export default function ProductDetail() {
                 colorRef={colorRef}
                 storageRef={storageRef}
               />
-              <ActionButtons addToCart={addToCart} />
+              <ActionButtons addToCart={handleAddToCart} />
             </div>
           </div>
         </section>
