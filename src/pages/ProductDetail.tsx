@@ -10,6 +10,7 @@ import { ActionButtons } from '@/components/ActionButtons'
 import { getProductDetails } from '@/services/product.services'
 import { addToCart } from '@/services/cart.services'
 import { CartItem, ProductData } from '@/types'
+import { useCartStore } from '@/store/cartStore'
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -17,6 +18,8 @@ export default function ProductDetail() {
 
   const colorRef = useRef<HTMLSelectElement>(null)
   const storageRef = useRef<HTMLSelectElement>(null)
+
+  const { addItemToCart } = useCartStore()
 
   useEffect(() => {
     if (id) {
@@ -27,7 +30,7 @@ export default function ProductDetail() {
   if (Object.keys(productData).length === 0)
     return <Loader className='animate-spin w-12 h-12 absolute top-1/2 left-1/2 text-indigo-500' />
 
-  const { model, imgUrl, options } = productData
+  const { model, price, imgUrl, options } = productData
   const { colors, storages } = options
 
   const breadcrumbs = [
@@ -36,31 +39,32 @@ export default function ProductDetail() {
   ]
 
   function handleAddToCart() {
-    const timestamp = localStorage.getItem('timestamp')
-    if (timestamp && Date.now() - Number(timestamp) > 1000 * 60 * 60) {
-      localStorage.removeItem('timestamp')
-      localStorage.removeItem('cart')
-    }
-
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]')
+    // const timestamp = localStorage.getItem('timestamp')
+    // if (timestamp && Date.now() - Number(timestamp) > 1000 * 60 * 60) {
+    //   localStorage.removeItem('timestamp')
+    //   localStorage.removeItem('cart')
+    // }
 
     const dataToSend = {
       id,
       model,
+      price: Number(price),
       colorCode: colorRef.current?.value,
       storageCode: storageRef.current?.value
     }
-    console.log(dataToSend)
+    console.log('added item: ', dataToSend)
 
-    addToCart(dataToSend as CartItem).then(res => {
-      const timestampLocal = localStorage.getItem('timestamp')
-      if (!timestampLocal) {
-        localStorage.setItem('timestamp', JSON.stringify(Date.now()))
-      }
-      const updatedCart = [...cart, dataToSend]
-      localStorage.setItem('cart', JSON.stringify(updatedCart))
-      console.log('res', res)
-    })
+    addItemToCart(dataToSend as CartItem)
+
+    // addToCart(dataToSend).then(res => {
+    //   const timestampLocal = localStorage.getItem('timestamp')
+    //   if (!timestampLocal) {
+    //     localStorage.setItem('timestamp', JSON.stringify(Date.now()))
+    //   }
+    //   const updatedCart = [...cart, dataToSend]
+    //   localStorage.setItem('cart', JSON.stringify(updatedCart))
+    //   console.log('res from api: ', res)
+    // })
   }
 
   return (

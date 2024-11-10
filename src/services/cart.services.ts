@@ -1,7 +1,7 @@
 import { BASE_URL } from '@/config'
 import { CartItem } from '@/types'
 
-export async function addToCart(dataToSend: CartItem): Promise<{ count: number }> {
+export async function addToCart(dataToSend: Partial<CartItem>): Promise<{ count: number }> {
   try {
     const res = await fetch(`${BASE_URL}/api/cart/`, {
       method: 'POST',

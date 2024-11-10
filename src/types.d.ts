@@ -60,6 +60,8 @@ export interface ProductData {
 export interface CartItem {
   id: string
   model?: string
+  price: number
+  quantity: number
   colorCode: string
   storageCode: string
 }
