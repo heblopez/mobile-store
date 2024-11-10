@@ -9,10 +9,14 @@ interface CartStore {
   total: number
 }
 
+function isCartExpired() {
+  const timestamp = localStorage.getItem(CART_TIMESTAMP_KEY)
+  return timestamp ? Date.now() - Number(timestamp) > CART_EXPIRATION_TIME : true
+}
+
 function getInitialCart() {
   const cart = localStorage.getItem(CART_KEY)
-  const timestamp = localStorage.getItem(CART_TIMESTAMP_KEY)
-  if (cart && timestamp && Date.now() - Number(timestamp) > CART_EXPIRATION_TIME) {
+  if (cart && isCartExpired()) {
     localStorage.removeItem(CART_KEY)
     localStorage.removeItem(CART_TIMESTAMP_KEY)
     return []
@@ -21,12 +25,19 @@ function getInitialCart() {
 }
 
 function saveCartToLocal(cart: CartItem[]) {
-  localStorage.setItem('cart', JSON.stringify(cart))
+  localStorage.setItem(CART_KEY, JSON.stringify(cart))
+  if (!localStorage.getItem(CART_TIMESTAMP_KEY))
+    localStorage.setItem(CART_TIMESTAMP_KEY, JSON.stringify(Date.now()))
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
   cart: getInitialCart(),
-  addItemToCart: newItem =>
+  addItemToCart: newItem => {
+    if (isCartExpired()) {
+      localStorage.removeItem(CART_KEY)
+      localStorage.removeItem(CART_TIMESTAMP_KEY)
+      set({ cart: [], total: 0 })
+    }
     set(state => {
       const existingItem = state.cart.find(item => item.id === newItem.id)
       let updatedCart
@@ -43,7 +54,8 @@ export const useCartStore = create<CartStore>((set, get) => ({
       return {
         cart: updatedCart
       }
-    }),
+    })
+  },
   removeItemFromCart: productId =>
     set(state => {
       const updatedCart = state.cart.filter(item => item.id !== productId)
