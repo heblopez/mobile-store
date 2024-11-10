@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import {
   ArrowBigLeftIcon,
@@ -13,18 +13,26 @@ import { ProductData } from '@/types'
 
 export default function ProductDetail() {
   const { id } = useParams()
+  const [productData, setProductData] = useState<ProductData>({} as ProductData)
 
-  const [productData, setProductData] = useState<ProductData>({} as unknown as ProductData)
+  const colorRef = useRef<HTMLSelectElement>(null)
+  const storageRef = useRef<HTMLSelectElement>(null)
 
   useEffect(() => {
     fetch(`https://itx-frontend-test.onrender.com/api/product/${id}`)
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        } else {
+          throw new Error('Error fetching product details')
+        }
+      })
       .then(data => setProductData(data))
       .catch(err => console.error(err))
   }, [id])
 
   if (Object.keys(productData).length === 0)
-    return <Loader className='w-12 h-12 absolute top-1/2 left-1/2' />
+    return <Loader className='animate-spin w-12 h-12 absolute top-1/2 left-1/2 text-indigo-500' />
 
   const { model, imgUrl, options } = productData
   const { colors, storages } = options
@@ -51,6 +59,48 @@ export default function ProductDetail() {
 
   function camelCaseToCapitalized(str: string) {
     return str.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())
+  }
+
+  function addToCart() {
+    const timestamp = localStorage.getItem('timestamp')
+    if (timestamp && Date.now() - Number(timestamp) > 1000 * 60 * 60) {
+      localStorage.removeItem('timestamp')
+      localStorage.removeItem('cart')
+    }
+
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]')
+
+    const dataToSend = {
+      id,
+      model,
+      colorCode: colorRef.current?.value,
+      storageCode: storageRef.current?.value
+    }
+    console.log(dataToSend)
+    fetch(`https://itx-frontend-test.onrender.com/api/cart/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dataToSend)
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        } else {
+          throw new Error('Error adding product to cart')
+        }
+      })
+      .then(res => {
+        const timestampLocal = localStorage.getItem('timestamp')
+        if (!timestampLocal) {
+          localStorage.setItem('timestamp', JSON.stringify(Date.now()))
+        }
+        const updatedCart = [...cart, dataToSend]
+        localStorage.setItem('cart', JSON.stringify(updatedCart))
+        console.log('res', res)
+      })
+      .catch(err => console.error(err))
   }
 
   return (
@@ -107,13 +157,16 @@ export default function ProductDetail() {
                 </ul>
               </div>
 
-              <div className='space-y-4'>
-                <div className='space-y-2'>
+              <div className='flex flex-col sm:flex-row justify-center items-center gap-4'>
+                <div className='space-y-2 w-full'>
                   <label className='block text-sm font-medium text-gray-700 dark:text-indigo-100'>
                     Color
                   </label>
                   <div className='relative'>
-                    <select className='appearance-none bg-indigo-50 dark:bg-indigo-900 px-4 py-2 w-full rounded-lg border-gray-300 shadow-lg focus:ring-2 focus:ring-indigo-500'>
+                    <select
+                      ref={colorRef}
+                      className='appearance-none bg-indigo-50 dark:bg-indigo-900 px-4 py-2 w-full rounded-lg border-gray-300 shadow-lg focus:ring-2 focus:ring-indigo-500'
+                    >
                       {colors.map(color => (
                         <option key={color.code} value={color.code}>
                           {color.name}
@@ -124,12 +177,15 @@ export default function ProductDetail() {
                   </div>
                 </div>
 
-                <div className='space-y-2'>
+                <div className='space-y-2 w-full'>
                   <label className='block text-sm font-medium text-gray-700 dark:text-indigo-100'>
                     Storage
                   </label>
                   <div className='relative'>
-                    <select className='appearance-none bg-indigo-50 dark:bg-indigo-900 p-2 w-full rounded-lg border-gray-300 shadow-lg focus:ring-2 focus:ring-indigo-500'>
+                    <select
+                      ref={storageRef}
+                      className='appearance-none bg-indigo-50 dark:bg-indigo-900 p-2 w-full rounded-lg border-gray-300 shadow-lg focus:ring-2 focus:ring-indigo-500'
+                    >
                       {storages.map(storage => (
                         <option key={storage.code} value={storage.code}>
                           {storage.name}
@@ -139,20 +195,23 @@ export default function ProductDetail() {
                     <ChevronDownIcon className='absolute right-2 top-1/2 -translate-y-1/2 h-5 w-5 text-indigo-500 dark:text-indigo-50 pointer-events-none' />
                   </div>
                 </div>
+              </div>
 
-                <div className='flex justify-around gap-2 pt-4'>
-                  <Link
-                    to='/'
-                    className='w-full max-w-48 justify-self-center py-3 px-5 bg-gradient-to-r from-indigo-600 to-blue-500 hover:bg-blue-700 hover:opacity-80 text-white font-medium rounded-lg flex items-center justify-center gap-2'
-                  >
-                    <ArrowBigLeftIcon className='w-4 h-4' />
-                    Volver al listado
-                  </Link>
-                  <button className='w-full max-w-48 justify-self-center py-3 px-5 bg-gradient-to-r from-indigo-600 to-blue-500 hover:bg-blue-700 hover:opacity-80 text-white font-medium rounded-lg flex items-center justify-center gap-2'>
-                    <ShoppingCartIcon className='w-4 h-4' />
-                    Agregar al carrito
-                  </button>
-                </div>
+              <div className='flex flex-col items-center xs:flex-row xs:justify-center gap-4 sm:gap-8 pt-3'>
+                <Link
+                  to='/'
+                  className='w-full max-w-48 justify-self-center py-3 px-4 bg-gradient-to-r from-indigo-600 to-blue-500 hover:bg-blue-700 hover:opacity-80 text-white font-medium rounded-lg flex items-center justify-center gap-2'
+                >
+                  <ArrowBigLeftIcon className='w-4 h-4' />
+                  Volver al listado
+                </Link>
+                <button
+                  className='w-full max-w-48 justify-self-center py-3 px-4 bg-gradient-to-r from-indigo-600 to-blue-500 hover:bg-blue-700 hover:opacity-80 text-white font-medium rounded-lg flex items-center justify-center gap-2'
+                  onClick={addToCart}
+                >
+                  <ShoppingCartIcon className='w-4 h-4' />
+                  Agregar al carrito
+                </button>
               </div>
             </div>
           </div>

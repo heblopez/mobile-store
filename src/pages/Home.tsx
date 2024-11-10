@@ -3,6 +3,7 @@ import { Product } from '@/types'
 import Header from '@/components/Header'
 import SearchBar from '@/components/SearchBar'
 import ProductCard from '@/components/ProductCard'
+import { Loader } from 'lucide-react'
 
 const breadcrumbs = [{ label: 'Home', href: '/' }]
 
@@ -11,7 +12,13 @@ export default function Home() {
 
   useEffect(() => {
     fetch('https://itx-frontend-test.onrender.com/api/product')
-      .then(res => res.json())
+      .then(res => {
+        if (res.ok) {
+          return res.json()
+        } else {
+          throw new Error('Error fetching products')
+        }
+      })
       .then(data => setProducts(data))
       .catch(err => console.error(err))
   }, [])
@@ -26,9 +33,9 @@ export default function Home() {
           <SearchBar className='hidden xs:block' />
         </section>
         <section className='p-4 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-9 md:gap-12 xl:px-0'>
-          {products.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          {products.length === 0 ?
+            <Loader className='animate-spin w-12 h-12 absolute top-1/2 left-1/2 text-indigo-500' />
+          : products.map(product => <ProductCard key={product.id} product={product} />)}
         </section>
       </main>
     </>
