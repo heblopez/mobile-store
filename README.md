@@ -1,8 +1,14 @@
 # Mobile Store 📱
 
-## 🚀 Description
+![Desktop Screenshot](/src/assets/desktop-screenshot.png)
+
+## 📃 Description
 
 This is a **Single Page Application (SPA)** built with **React**, **Vite**, and **TypeScript** that serves as a mobile device store. The application allows users to navigate a list of products and view detailed information about each one.
+
+## 🚀 Demo
+
+You can check out the demo of the application [here](https://heblopez.github.io/mobile-store/).
 
 ## 🌟 Features
 
@@ -16,6 +22,7 @@ This is a **Single Page Application (SPA)** built with **React**, **Vite**, and 
 - **TypeScript**: A superset of JavaScript that adds static types for improved development experience.
 - **Tailwind CSS**: Utility-first CSS framework for rapid UI development.
 - **React Router**: For navigation between product views and detail pages.
+- **Zustand**: A state management library for web applications.
 
 ## 📦 Installation
 
