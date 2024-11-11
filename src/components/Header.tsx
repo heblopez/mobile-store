@@ -16,7 +16,7 @@ export default function Header({ links }: HeaderProps) {
         <div className='max-w-7xl mx-auto px-4'>
           <div className='flex justify-between items-center hover:opacity-90'>
             <Link
-              to='.'
+              to='/'
               className='flex items-center space-x-3 cursor-pointer bg-gradient-to-r from-indigo-600 to-blue-400 text-transparent bg-clip-text'
             >
               <SmartphoneIcon className='h-6 w-6 text-indigo-600 dark:text-white' />

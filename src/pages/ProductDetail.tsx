@@ -35,7 +35,7 @@ export default function ProductDetail() {
   const { colors, storages } = options
 
   const breadcrumbs = [
-    { label: 'Home', href: '.' },
+    { label: 'Home', href: '/' },
     { label: model || 'Product Detail', href: '' }
   ]
 
