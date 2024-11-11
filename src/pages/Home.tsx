@@ -7,7 +7,7 @@ import { Loader, SearchCheck } from 'lucide-react'
 import { getProducts } from '@/services/product.services'
 import { Sidebar } from '@/components/Sidebar'
 
-const breadcrumbs = [{ label: 'Home', href: '/' }]
+const breadcrumbs = [{ label: 'Home', href: '.' }]
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
