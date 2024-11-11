@@ -11,6 +11,7 @@ import { getProductDetails } from '@/services/product.services'
 import { addToCart } from '@/services/cart.services'
 import { CartItem, ProductData } from '@/types'
 import { useCartStore } from '@/store/cartStore'
+import { Sidebar } from '@/components/Sidebar'
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -49,6 +50,7 @@ export default function ProductDetail() {
       id,
       model,
       price: Number(price),
+      imgUrl,
       colorCode: colorRef.current?.value,
       storageCode: storageRef.current?.value
     }
@@ -70,6 +72,7 @@ export default function ProductDetail() {
   return (
     <>
       <Header links={breadcrumbs} />
+      <Sidebar />
       <main className='w-full'>
         <section className='mx-auto p-4 sm:px-6 xl:px-0'>
           <h1 className='text-3xl font-bold'>Product Detail</h1>

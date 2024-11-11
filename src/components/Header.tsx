@@ -8,7 +8,7 @@ interface HeaderProps {
 }
 
 export default function Header({ links }: HeaderProps) {
-  const { cart } = useCartStore()
+  const { cart, toggleSidebar } = useCartStore()
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0)
   return (
     <>
@@ -22,7 +22,10 @@ export default function Header({ links }: HeaderProps) {
               <SmartphoneIcon className='h-6 w-6 text-indigo-600 dark:text-white' />
               <h1 className='text-2xl font-bold'>Mobile Store</h1>
             </Link>
-            <button className='relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-indigo-900'>
+            <button
+              className='relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-indigo-900'
+              onClick={toggleSidebar}
+            >
               <ShoppingCartIcon className='h-6 w-6 text-indigo-600 dark:text-inherit cursor-pointer dark:hover:text-indigo-50' />
               {totalItems > 0 && (
                 <span className='absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center'>

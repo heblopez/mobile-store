@@ -5,6 +5,7 @@ import SearchBar from '@/components/SearchBar'
 import ProductCard from '@/components/ProductCard'
 import { Loader } from 'lucide-react'
 import { getProducts } from '@/services/product.services'
+import { Sidebar } from '@/components/Sidebar'
 
 const breadcrumbs = [{ label: 'Home', href: '/' }]
 
@@ -18,6 +19,7 @@ export default function Home() {
   return (
     <>
       <Header links={breadcrumbs} />
+      <Sidebar />
       <main className='w-full'>
         <SearchBar className='xs:hidden' />
         <section className='px-4 mb-2 flex items-center justify-between gap-4 xl:px-0'>

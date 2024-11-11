@@ -7,6 +7,9 @@ interface CartStore {
   addItemToCart: (product: Omit<CartItem, 'quantity'>) => void
   removeItemFromCart: (productId: string) => void
   total: number
+  isOpenSidebar: boolean
+  toggleSidebar: () => void
+  updateQuantity: (productId: string, quantity: number) => void
 }
 
 function isCartExpired() {
@@ -14,7 +17,7 @@ function isCartExpired() {
   return timestamp ? Date.now() - Number(timestamp) > CART_EXPIRATION_TIME : true
 }
 
-function getInitialCart() {
+function getInitialCart(): CartItem[] {
   const cart = localStorage.getItem(CART_KEY)
   if (cart && isCartExpired()) {
     localStorage.removeItem(CART_KEY)
@@ -24,13 +27,18 @@ function getInitialCart() {
   return cart ? JSON.parse(cart) : []
 }
 
+function getInitialTotal() {
+  const cart = getInitialCart()
+  return cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
+}
+
 function saveCartToLocal(cart: CartItem[]) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart))
   if (!localStorage.getItem(CART_TIMESTAMP_KEY))
     localStorage.setItem(CART_TIMESTAMP_KEY, JSON.stringify(Date.now()))
 }
 
-export const useCartStore = create<CartStore>((set, get) => ({
+export const useCartStore = create<CartStore>(set => ({
   cart: getInitialCart(),
   addItemToCart: newItem => {
     if (isCartExpired()) {
@@ -52,7 +60,8 @@ export const useCartStore = create<CartStore>((set, get) => ({
 
       saveCartToLocal(updatedCart)
       return {
-        cart: updatedCart
+        cart: updatedCart,
+        total: updatedCart.reduce((sum, item) => sum + item.price * item.quantity, 0)
       }
     })
   },
@@ -63,10 +72,24 @@ export const useCartStore = create<CartStore>((set, get) => ({
       saveCartToLocal(updatedCart)
 
       return {
-        cart: updatedCart
+        cart: updatedCart,
+        total: updatedCart.reduce((sum, item) => sum + item.price * item.quantity, 0)
       }
     }),
-  get total() {
-    return get().cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  }
+  total: getInitialTotal(),
+  isOpenSidebar: false,
+  toggleSidebar: () => set(state => ({ isOpenSidebar: !state.isOpenSidebar })),
+  updateQuantity: (productId, quantity) =>
+    set(state => {
+      const updatedCart = state.cart
+        .map(item => (item.id === productId ? { ...item, quantity: Math.max(quantity, 0) } : item))
+        .filter(item => item.quantity > 0)
+
+      saveCartToLocal(updatedCart)
+
+      return {
+        cart: updatedCart,
+        total: updatedCart.reduce((sum, item) => sum + item.price * item.quantity, 0)
+      }
+    })
 }))

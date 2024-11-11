@@ -61,6 +61,7 @@ export interface CartItem {
   id: string
   model?: string
   price: number
+  imgUrl: string
   quantity: number
   colorCode: string
   storageCode: string
