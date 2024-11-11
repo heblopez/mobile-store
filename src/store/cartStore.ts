@@ -34,8 +34,7 @@ function getInitialTotal() {
 
 function saveCartToLocal(cart: CartItem[]) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart))
-  if (!localStorage.getItem(CART_TIMESTAMP_KEY))
-    localStorage.setItem(CART_TIMESTAMP_KEY, JSON.stringify(Date.now()))
+  localStorage.setItem(CART_TIMESTAMP_KEY, JSON.stringify(Date.now()))
 }
 
 export const useCartStore = create<CartStore>(set => ({
