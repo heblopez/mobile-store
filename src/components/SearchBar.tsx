@@ -1,12 +1,14 @@
 import { SearchIcon } from 'lucide-react'
-import { useState } from 'react'
 
-export default function SearchBar({ className }: { className?: string }) {
-  const [searchTerm, setSearchTerm] = useState<string>('')
+interface SearchBarProps {
+  className?: string
+  searchTerm: string
+  setSearchTerm: (searchTerm: string) => void
+}
 
+export default function SearchBar({ className, searchTerm, setSearchTerm }: SearchBarProps) {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
-    console.log(e.target.value)
   }
 
   return (
