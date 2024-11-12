@@ -13,7 +13,7 @@ export default function SearchBar({ className, searchTerm, setSearchTerm }: Sear
 
   return (
     <div
-      className={`flex relative w-full max-w-sm my-3 items-center bg-slate-100 dark:bg-slate-800 rounded-lg ${className}`}
+      className={`flex relative w-auto max-w-md xs:w-full mx-4 xs:mx-0 my-3 items-center bg-slate-100 dark:bg-slate-800 rounded-lg ${className}`}
     >
       <input
         type='text'
