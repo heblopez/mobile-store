@@ -4,7 +4,7 @@ import ProductDetail from './pages/ProductDetail'
 
 function App() {
   return (
-    <BrowserRouter basename='/mobile-store/'>
+    <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/product/:id' element={<ProductDetail />} />
