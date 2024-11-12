@@ -29,7 +29,7 @@ export default function ProductDetail() {
 
   if (Object.keys(productData).length === 0)
     return (
-      <Loader className='animate-spin w-12 h-12 absolute top-[45%] left-[45%] text-indigo-500' />
+      <Loader className='animate-spin w-12 h-12 absolute top-[50%] left-[45%] lg:left-1/2 text-indigo-500' />
     )
 
   const { model, price, imgUrl, options } = productData
