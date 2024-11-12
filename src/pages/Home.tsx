@@ -39,7 +39,7 @@ export default function Home() {
         </section>
         <section className='p-4 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-9 md:gap-12 xl:px-0'>
           {products.length === 0 ?
-            <Loader className='animate-spin w-12 h-12 absolute top-1/2 left-[45%] text-indigo-500' />
+            <Loader className='animate-spin w-12 h-12 absolute top-1/2 left-[45%] lg:left-1/2 text-indigo-500' />
           : filteredProducts.length === 0 ?
             <div className='flex justify-center items-center col-span-2 gap-2'>
               <SearchCheck className='w-4 h-12' />
