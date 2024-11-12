@@ -8,7 +8,8 @@ export async function addToCart(dataToSend: Partial<CartItem>): Promise<{ count:
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(dataToSend)
+      body: JSON.stringify(dataToSend),
+      credentials: 'include'
     })
     if (!res.ok) {
       throw new Error('Error adding product to cart')

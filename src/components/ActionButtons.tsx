@@ -9,14 +9,14 @@ export function ActionButtons({ addToCart }: { addToCart: () => void }) {
         className='w-full max-w-48 justify-self-center py-3 px-4 bg-gradient-to-r from-indigo-600 to-blue-500 hover:bg-blue-700 hover:opacity-80 text-white font-medium rounded-lg flex items-center justify-center gap-2'
       >
         <ArrowBigLeftIcon className='w-4 h-4' />
-        Volver al listado
+        Back to list
       </Link>
       <button
         className='w-full max-w-48 justify-self-center py-3 px-4 bg-gradient-to-r from-indigo-600 to-blue-500 hover:bg-blue-700 hover:opacity-80 text-white font-medium rounded-lg flex items-center justify-center gap-2'
         onClick={addToCart}
       >
         <ShoppingCartIcon className='w-4 h-4' />
-        Agregar al carrito
+        Add to cart
       </button>
     </div>
   )

@@ -8,7 +8,6 @@ import { ProductHeading } from '@/components/ProductHeading'
 import { ProductImage } from '@/components/ProductImage'
 import { ActionButtons } from '@/components/ActionButtons'
 import { getProductDetails } from '@/services/product.services'
-import { addToCart } from '@/services/cart.services'
 import { CartItem, ProductData } from '@/types'
 import { useCartStore } from '@/store/cartStore'
 import { Sidebar } from '@/components/Sidebar'
@@ -29,7 +28,9 @@ export default function ProductDetail() {
   }, [id])
 
   if (Object.keys(productData).length === 0)
-    return <Loader className='animate-spin w-12 h-12 absolute top-1/2 left-1/2 text-indigo-500' />
+    return (
+      <Loader className='animate-spin w-12 h-12 absolute top-[45%] left-[45%] text-indigo-500' />
+    )
 
   const { model, price, imgUrl, options } = productData
   const { colors, storages } = options
@@ -40,12 +41,6 @@ export default function ProductDetail() {
   ]
 
   function handleAddToCart() {
-    // const timestamp = localStorage.getItem('timestamp')
-    // if (timestamp && Date.now() - Number(timestamp) > 1000 * 60 * 60) {
-    //   localStorage.removeItem('timestamp')
-    //   localStorage.removeItem('cart')
-    // }
-
     const dataToSend = {
       id,
       model,
@@ -54,19 +49,8 @@ export default function ProductDetail() {
       colorCode: colorRef.current?.value,
       storageCode: storageRef.current?.value
     }
-    console.log('added item: ', dataToSend)
 
     addItemToCart(dataToSend as CartItem)
-
-    // addToCart(dataToSend).then(res => {
-    //   const timestampLocal = localStorage.getItem('timestamp')
-    //   if (!timestampLocal) {
-    //     localStorage.setItem('timestamp', JSON.stringify(Date.now()))
-    //   }
-    //   const updatedCart = [...cart, dataToSend]
-    //   localStorage.setItem('cart', JSON.stringify(updatedCart))
-    //   console.log('res from api: ', res)
-    // })
   }
 
   return (

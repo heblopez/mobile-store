@@ -18,7 +18,7 @@ export default function Header({ links }: HeaderProps) {
   return (
     <>
       <header className='fixed top-0 left-0 right-0 bg-white dark:bg-indigo-950 px-4 pt-4 pb-2 shadow-md z-20'>
-        <div className='max-w-7xl mx-auto px-4'>
+        <div className='max-w-7xl mx-auto p-0 xs:px-4'>
           <div className='flex justify-between items-center hover:opacity-90'>
             <Link
               to='/'

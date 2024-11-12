@@ -15,7 +15,7 @@ export function Sidebar() {
       />
       <div className='fixed flex flex-col justify-between right-0 top-0 h-full w-full max-w-md bg-slate-50 dark:bg-indigo-950 transform transition-transform duration-300'>
         <div className='flex items-center justify-between px-8 py-4 border-b text-indigo-600 dark:text-indigo-100'>
-          <h2 className='text-lg font-semibold'>Tu carrito:</h2>
+          <h2 className='text-lg font-semibold'>Your cart:</h2>
           <button
             onClick={toggleSidebar}
             className='p-2 hover:bg-gray-100 dark:hover:bg-indigo-700 rounded-full'
@@ -28,7 +28,7 @@ export function Sidebar() {
           <div className='flex flex-col flex-1 overflow-y-auto p-4'>
             {cart.length === 0 ?
               <p className='text-center text-gray-500 dark:text-gray-50 mt-4'>
-                Aún no tienes productos en tu carrito
+                You don't have any products in your cart yet
               </p>
             : <div className='space-y-4'>
                 {cart.map(item => (
