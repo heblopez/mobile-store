@@ -1,8 +1,8 @@
-import { MoonIcon, ShoppingCartIcon, SmartphoneIcon, SunIcon } from 'lucide-react'
+import { ShoppingCartIcon, SmartphoneIcon } from 'lucide-react'
 import Breadcrumbs from './Breadcrumbs'
 import { Link } from 'react-router-dom'
 import { useCartStore } from '@/store/cartStore'
-import { useDarkMode } from '@/hooks/useDarkMode'
+import ThemeButton from './ThemeButton'
 
 interface HeaderProps {
   links: { label: string; href: string }[]
@@ -12,8 +12,6 @@ export default function Header({ links }: HeaderProps) {
   const { cart, toggleSidebar } = useCartStore()
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0)
-
-  const { isDarkMode, toggleDarkMode } = useDarkMode()
 
   return (
     <>
@@ -28,19 +26,7 @@ export default function Header({ links }: HeaderProps) {
               <h1 className='text-2xl font-bold'>Mobile Store</h1>
             </Link>
             <div className='flex gap-2 w-fit'>
-              <button
-                onClick={toggleDarkMode}
-                className='p-2 rounded-full hover:bg-gray-100  dark:hover:bg-indigo-900'
-                aria-label={isDarkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
-              >
-                <div
-                  className={`transform transition-transform duration-500 ${isDarkMode ? 'rotate-180' : 'rotate-0'}`}
-                >
-                  {isDarkMode ?
-                    <MoonIcon size={24} className='text-indigo-600 dark:text-inherit' />
-                  : <SunIcon size={24} className='text-indigo-600 dark:text-inherit' />}
-                </div>
-              </button>
+              <ThemeButton />
               <button
                 className='relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-indigo-900'
                 onClick={toggleSidebar}
