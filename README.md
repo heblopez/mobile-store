@@ -23,6 +23,9 @@ You can check out the demo of the application [here](https://heblopez.github.io/
 - **Tailwind CSS**: Utility-first CSS framework for rapid UI development.
 - **React Router**: For navigation between product views and detail pages.
 - **Zustand**: A state management library for web applications.
+- **Vitest**: A powerful and fast testing framework for React applications.
+- **Testing Library**: A simple and comprehensive API for testing React components.
+- **JSDOM**: A JavaScript implementation of the DOM for testing purposes.
 
 ## 📦 Installation
 
