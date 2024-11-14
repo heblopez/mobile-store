@@ -17,6 +17,7 @@ export function ProductOptions({ colors, storages, colorRef, storageRef }: Produ
         </label>
         <div className='relative'>
           <select
+            aria-label='color-select'
             ref={colorRef}
             className='appearance-none bg-indigo-50 dark:bg-indigo-900 px-4 py-2 w-full rounded-lg border-gray-300 shadow-lg focus:ring-2 focus:ring-indigo-500'
           >
@@ -36,6 +37,7 @@ export function ProductOptions({ colors, storages, colorRef, storageRef }: Produ
         </label>
         <div className='relative'>
           <select
+            aria-label='storage-select'
             ref={storageRef}
             className='appearance-none bg-indigo-50 dark:bg-indigo-900 p-2 w-full rounded-lg border-gray-300 shadow-lg focus:ring-2 focus:ring-indigo-500'
           >
