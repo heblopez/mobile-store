@@ -37,7 +37,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <Link
           to={`/product/${id}`}
           className=' w-fit mx-auto bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:opacity-80'
-          aria-label='Add to cart'
+          aria-label='View more'
         >
           <EyeIcon className='h-4 w-4' />
           <span className='font-normal text-xs'>View more</span>
