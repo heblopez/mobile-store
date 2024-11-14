@@ -21,6 +21,7 @@ export default function SearchBar({ className, searchTerm, setSearchTerm }: Sear
         className='w-full px-4 py-2 bg-transparent text-gray-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg'
         value={searchTerm}
         onChange={handleSearch}
+        aria-label='search-input'
       />
       <button className='absolute right-0 bg-indigo-600 text-white rounded-lg px-3 py-2'>
         <SearchIcon className='h-5 w-5' />
