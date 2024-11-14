@@ -12,7 +12,7 @@ export function ProductHeading({ productData }: { productData: ProductData }) {
           ))}
         </div>
         <span className='text-sm text-gray-600 dark:text-indigo-200'>
-          ({Math.round(Math.random() * 128)} reviews)
+          ({Math.ceil(Math.random() * 128)} reviews)
         </span>
       </div>
       <p className='text-2xl font-bold'>{`$ ${Number(productData.price).toFixed(2)}`}</p>
